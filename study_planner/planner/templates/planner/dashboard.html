@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Study Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d1c4e9, #b3e5fc);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Container for the whole dashboard */
+        .container {
+            max-width: 650px; 
+            width: 70%;
+            margin: 35px auto;
+            padding: 10px;
+            background-color:#F5FAFF;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #004ba0;
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        /* Task Overview Section */
+        .task-overview {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 8px;
+            color: rgba(255, 255, 255, 0.959);
+        }
+
+        .task-overview h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: #2e3a59;
+        }
+
+        .task-overview p {
+            font-size: 1rem;
+            color: #37474f;
+            margin: 0;
+        }
+
+        /* Add Task Form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 2.4px;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        form input, form select, form textarea {
+            padding: 3px;
+            font-size: 14px;
+            border-radius: 6px;
+            background-color:#E8F0FE;
+            margin: 0;
+            
+        }
+
+       
+
+        form button {
+            padding: 5px 10px;
+            background-color: #004ba0;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #003366;
+        }
+
+        /* Task List Styling */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 8px;
+        }
+
+        li {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        li span {
+            font-weight: bold;
+            color: #37474f;
+        }
+
+        .status {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .status.completed {
+            color: #4caf50;
+            margin-left: 60px;
+        }
+
+        .status.pending {
+            color: #d62845;
+            margin-left:0%;
+        }
+
+        .task-time {
+            color: #777;
+            font-size: 13px; 
+        }
+
+        /* Hover Effect */
+        li:hover {
+            background-color: #e8f1f9;
+        }
+
+        /* Media Query for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .task-overview {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .task-overview p {
+                font-size: 0.9rem;
+            }
+        }
+
+        .back-to-home {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 16px;
+            margin-top: 32px;
+        }
+
+        .back-to-home a {
+            color: #062aa3;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home a:hover {
+            background-color: #3e5c8b;
+            color: white;
+        }
+
+
+        .logout-link {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 16px;
+            margin-top: 32px;
+            
+        }
+
+        .logout-link a {
+            color: #062aa3;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-link a:hover {
+            background-color: #3e5c8b;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Your Study Planner Dashboard</h1> 
+
+        <!-- Task Overview Section -->
+        <div class="task-overview">
+            <div>
+                <h3>Task Overview</h3>
+                <p>Total Tasks: {{ total_tasks_count }}</p>
+                <p>Completed Tasks: {{ completed_tasks_count }}</p>
+                <p>Pending Tasks: {{ pending_tasks_count }}</p>
+            </div>
+        </div>
+
+        <!-- Task Reminder Button -->
+        <form action="{% url 'send_task_reminders' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" aria-label="Send task reminders">Send Task Reminders</button>
+        </form>
+
+        <!-- Add Task Form -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" aria-label="Add new task">Add Task</button>
+        </form>
+
+        <!-- Task List -->
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <div>
+                        <span>{{ task.subject }} - {{ task.date }}</span>
+                        <div class="task-time">{{ task.time }}</div>
+                    </div>
+                    <div class="status {% if task.completed %} completed {% else %} pending {% endif %}">
+                        {% if task.completed %} ✅ Completed
+                        {% else %}❌ Pending {% endif %}
+                    </div>
+
+                    <div class="task-actions">
+                        <a href="{% url 'edit_task' task.id %}">Edit</a> |
+                        <a href="{% url 'delete_task' task.id %}" onclick="return confirm('Are you sure?')">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        
+    </div>
+
+    <div class="back-to-home">
+        <a href="{% url 'home' %}">Back to Home</a>
+    </div>
+
+    <div class="logout-link">
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+</body>
+</html>

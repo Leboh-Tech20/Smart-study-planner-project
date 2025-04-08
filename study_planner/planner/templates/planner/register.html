@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Study Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d1c4e9, #b3e5fc);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.25);
+            text-align: center;
+        }
+
+        h1 {
+            color: #062aa3; /* Darker blue */
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #37474f;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f5faff; /* Light blue input fields */
+        }
+
+        button {
+            padding: 12px;
+            background-color: #062aa3;/* Blue button */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #062aa3;
+            transform: scale(1.03);
+        }
+
+        a {
+            display: block;
+            margin-top: 15px; 
+            color: #062aa3; 
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message Styling */
+        .message {
+            color: red;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            color: green;
+        }
+
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 16px;
+        }
+
+        .back-to-home a {
+            color: #062aa3;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home a:hover {
+            background-color: #3e5c8b;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Register</h1>
+
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="message {% if message.tags == 'success' %}success-message{% endif %}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Registration Form -->
+        <form method="post">
+            {% csrf_token %}
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Email:</label>
+            <input type="email" name="email" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <label>Confirm Password:</label>
+            <input type="password" name="confirm_password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <a href="{% url 'login' %}">Already have an account? Login</a>
+
+        <div class="back-to-home">
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
