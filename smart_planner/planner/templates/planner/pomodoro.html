@@ -1,0 +1,145 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+<style>
+    /* Container for the Pomodoro timer */
+    .pomodoro-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        padding: 20px;
+    }
+
+    /* Pomodoro timer text style */
+    .pomodoro-timer {
+        font-size: 4em;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Input and button container */
+    .pomodoro-time,
+    .pomodoro-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Button styles */
+    .pomodoro-buttons button,
+    .pomodoro-time input {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 10px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Button hover effect */
+    .pomodoro-buttons button:hover,
+    .pomodoro-time input:hover {
+        background-color: #0056b3;
+    }
+
+    /* Timer input field */
+    .pomodoro-time input {
+        width: 80px;
+        text-align: center;
+        font-size: 1.5em;
+        border-radius: 8px;
+    }
+
+    /* Add a subtle animation to the timer */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .pomodoro-timer {
+        animation: pulse 1s ease-in-out infinite;
+    }
+</style>
+
+<div class="pomodoro-container">
+    <div class="pomodoro-timer" id="timer">25:00</div>
+    
+    <div class="pomodoro-time">
+        <label for="pomodoro-time" style="color: white; font-size: 1.2em;">Set Timer (Minutes):</label>
+        <input type="number" id="pomodoro-time" value="25" min="1" max="60" step="1" />
+    </div>
+    
+    <div class="pomodoro-buttons">
+        <button onclick="startPomodoro()">Start</button>
+        <button onclick="pausePomodoro()">Pause</button>
+        <button onclick="resetPomodoro()">Reset</button>
+    </div>
+</div>
+
+<script>
+    let timer;
+    let minutes = 25;
+    let seconds = 0;
+    let isRunning = false;
+
+    function updateTimer() {
+        document.getElementById('timer').innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function startPomodoro() {
+        // Get the custom time from the input field
+        minutes = parseInt(document.getElementById('pomodoro-time').value) || 25;
+        seconds = 0;
+
+        if (!isRunning) {
+            isRunning = true;
+            timer = setInterval(function() {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timer);
+                        alert("Pomodoro Finished!");
+                        resetPomodoro();
+                    } else {
+                        minutes--;
+                        seconds = 59;
+                    }
+                } else {
+                    seconds--;
+                }
+                updateTimer();
+            }, 1000);
+        }
+    }
+
+    function pausePomodoro() {
+        clearInterval(timer);
+        isRunning = false;
+    }
+
+    function resetPomodoro() {
+        clearInterval(timer);
+        isRunning = false;
+        minutes = parseInt(document.getElementById('pomodoro-time').value) || 25;
+        seconds = 0;
+        updateTimer();
+    }
+</script>
+{% endblock %}

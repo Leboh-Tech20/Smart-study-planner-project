@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome – Study Smart Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f3f6fc;
+            color: #333;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .hero button {
+            padding: 12px 25px;
+            border-radius: 6px;
+            background: white;
+            color: #007BFF;
+            font-weight: bold;
+            border: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #e2e6f0;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 280px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: #007BFF;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            padding-top: 80px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal input {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Study Smart Planner</h1>
+    <p>Your personal productivity assistant for academic success.</p>
+    <button onclick="openModal('loginModal')">Login</button>
+    <button onclick="openModal('registerModal')">Register</button>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <h3>📅 Task Planning</h3>
+        <p>Organize your subjects and deadlines with ease.</p>
+    </div>
+    <div class="feature-card">
+        <h3>⏱ Pomodoro Timer</h3>
+        <p>Stay focused using built-in Pomodoro sessions.</p>
+    </div>
+    <div class="feature-card">
+        <h3>📈 Progress Tracking</h3>
+        <p>See how you’re improving week by week.</p>
+    </div>
+    <div class="feature-card">
+        <h3>💡 Study Tips</h3>
+        <p>Boost your study skills with expert-backed tips.</p>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2025 Study Smart Planner | Built for NHCI63110
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2>Register</h2>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password1" placeholder="Password" required>
+            <input type="password" name="password2" placeholder="Confirm Password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Script -->
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = 'block';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    // Optional: Close modal when clicking outside the modal
+    window.onclick = function(event) {
+        const login = document.getElementById('loginModal');
+        const register = document.getElementById('registerModal');
+        if (event.target === login) login.style.display = "none";
+        if (event.target === register) register.style.display = "none";
+    }
+</script>
+
+</body>
+</html>

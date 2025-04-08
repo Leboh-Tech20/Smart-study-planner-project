@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Study Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 0 20px;
+        }
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 960px;
+            margin: auto;
+        }
+        h2 {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'tasks' %}">Tasks</a>
+            <a href="{% url 'pomodoro' %}">Pomodoro</a>
+            <a href="{% url 'calendar' %}">Calendar</a>
+            <a href="{% url 'progress' %}">Progress</a>
+            <a href="{% url 'goals' %}">Goals</a>
+            <a href="{% url 'study_tips' %}">Tips</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

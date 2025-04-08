@@ -1,0 +1,106 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+<style>
+    /* Container for the study tips section */
+    .tips-container {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: space-between;
+        align-items: flex-start; /* Align items to the top */
+    }
+
+    /* Title of the section */
+    h2 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    /* Style for individual tips */
+    .tip {
+        background-color: #f1f1f1;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-left: 5px solid #007bff;
+        width: 48%; /* Reduced width to give more space */
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tip h3 {
+        font-size: 1.2em;
+        color: #007bff;
+        margin-bottom: 8px;
+    }
+
+    .tip p {
+        font-size: 1em;
+        color: #555;
+    }
+
+    /* Container for the image */
+    .empty-space {
+        width: 48%; /* Set the width so it fits with the tips */
+        height: 200px;
+        background-image: url('/media/study.jpg'); /* Static image URL */
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .empty-space h3 {
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    /* Make sure to stack tips vertically on smaller screens */
+    @media (max-width: 768px) {
+        .tip, .empty-space {
+            width: 100%; /* Full width on smaller screens */
+        }
+    }
+</style>
+
+<h2>Study Tips</h2>
+<div class="tips-container">
+    <div class="tip">
+        <h3>Tip #1: Break down your study sessions</h3>
+        <p>Studying in small, manageable chunks is much more effective than cramming for hours. Take breaks in between to recharge.</p>
+    </div>
+    <div class="tip">
+        <h3>Tip #2: Use active recall</h3>
+        <p>Instead of passively reading your notes, test yourself regularly to reinforce learning. Ask yourself questions to engage your memory.</p>
+    </div>
+
+    <!-- Empty space with an image to balance the container next to Tip #1 and Tip #2 -->
+    <div class="empty-space">
+        <h3>.</h3>
+    </div>
+
+    <div class="tip">
+        <h3>Tip #3: Stay organized with a planner</h3>
+        <p>Keep track of deadlines, assignments, and exams with a planner to avoid last-minute stress. Visualize your schedule to stay on track.</p>
+    </div>
+
+    <div class="tip">
+        <h3>Tip #4: Stay hydrated and rest</h3>
+        <p>Hydration and sufficient rest are key to maintaining focus and memory retention during your study sessions.</p>
+    </div>
+</div>
+
+{% endblock %}

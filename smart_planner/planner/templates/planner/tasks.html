@@ -1,0 +1,159 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+<style>
+    .task-list {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .task-list table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .task-list th, .task-list td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .task-list th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .task-list td {
+        background-color: #f9f9f9;
+    }
+
+    .filters {
+        margin-bottom: 20px;
+    }
+
+    .filters select {
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    .task-form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .task-form input, .task-form select, .task-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .task-form button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .task-form button:hover {
+        background-color: #0056b3;
+    }
+
+    .task-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .task-actions button {
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .task-actions button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<h2>Your Study Tasks</h2>
+
+<div class="task-form">
+    <h3>Add a New Task</h3>
+    <form method="post">
+        {% csrf_token %}
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="due_date">Due Date</label>
+        <input type="date" id="due_date" name="due_date" required>
+
+        <label for="completed">Completed</label>
+        <select id="completed" name="completed">
+            <option value="False">Incomplete</option>
+            <option value="True">Completed</option>
+        </select>
+
+        <button type="submit">Add Task</button>
+    </form>
+</div>
+
+<div class="filters">
+    <form method="get">
+        <select name="filter" onchange="this.form.submit()">
+            <option value="">-- Filter Tasks --</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+        </select>
+    </form>
+</div>
+
+<div class="task-list">
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{% if task.completed %}Completed{% else %}Incomplete{% endif %}</td>
+                <td class="task-actions">
+                    <form method="post" action="{% url 'tasks' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="toggle_task" value="1">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <button type="submit">
+                            {% if task.completed %}Mark as Incomplete{% else %}Mark as Completed{% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
