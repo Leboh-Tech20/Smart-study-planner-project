@@ -1,1 +1,1 @@
-This is my Smart tudy Planner Django Project
+This is my Smart Study Planner Django Project
