@@ -7,7 +7,7 @@ class StudyTask(models.Model):
     description = models.TextField()
     due_date = models.DateField()
     completed = models.BooleanField(default=False)
-    reminder_time = models.IntegerField(null=True, blank=True)  # New field: reminder time in hours
+    reminder_time = models.IntegerField(null=True, blank=True) 
 
     def __str__(self):
         return self.subject

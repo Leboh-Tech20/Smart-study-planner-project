@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 
 
-# Home
+
 def home(request):
     if request.user.is_authenticated:
         total_tasks = StudyTask.objects.filter(user=request.user).count()
@@ -27,12 +27,12 @@ def home(request):
             'pending_tasks_count': pending_tasks,
         })
     else:
-        # 👇 render welcome page instead of redirecting to login
+        
         return render(request, 'planner/welcome.html')
 
 
 
-# Register
+
 
 def register(request):
     if request.method == 'POST':
@@ -44,7 +44,7 @@ def register(request):
         form = RegisterForm()
     return render(request, 'planner/register.html', {'form': form})
 
-# Login
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -57,55 +57,52 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'planner/login.html', {'form': form})
 
-# Logout
+
 
 def user_logout(request):
     logout(request)
-    return redirect('welcome')  # Redirect to the named URL for 'welcome'
+    return redirect('welcome') 
 
-# Task list + filtering
 @login_required
 def task_list(request):
     if request.method == 'POST' and 'subject' in request.POST:
-        # Form submission to add a new task
+        
         subject = request.POST['subject']
         description = request.POST['description']
         due_date = request.POST['due_date']
         completed = request.POST['completed'] == 'True'
-        reminder_time = request.POST.get('reminder_time', None)  # Get reminder time from the form
+        reminder_time = request.POST.get('reminder_time', None) 
 
-        # Convert reminder_time to integer if provided
+        
         if reminder_time:
             reminder_time = int(reminder_time)
 
-        # Create new task with reminder_time
+       
         new_task = StudyTask.objects.create(
             user=request.user,
             subject=subject,
             description=description,
             due_date=due_date,
             completed=completed,
-            reminder_time=reminder_time  # Store reminder time
+            reminder_time=reminder_time 
         )
 
-        # Redirect to task list to see the added task
+        
         return redirect('tasks')
 
     elif request.method == 'POST' and 'toggle_task' in request.POST:
-        # Handle toggling the task completion status
+        
         task_id = request.POST['task_id']
         task = get_object_or_404(StudyTask, id=task_id, user=request.user)
 
-        # Toggle task completion
         task.completed = not task.completed
         task.save()
 
         return redirect('tasks')
 
-    # If GET request, display tasks
+    
     tasks = StudyTask.objects.filter(user=request.user)
 
-    # Handle filtering if needed
     filter_status = request.GET.get('filter')
     if filter_status == 'completed':
         tasks = tasks.filter(completed=True)
@@ -115,17 +112,17 @@ def task_list(request):
     return render(request, 'planner/tasks.html', {'tasks': tasks})
 
 
-# Pomodoro
+
 @login_required
 def pomodoro_timer(request):
     return render(request, 'planner/pomodoro.html')
 
-# Study Tips Page
+
 @login_required
 def study_tips(request):
     return render(request, 'planner/study_tips.html')
 
-# Study Goals
+
 @login_required
 def study_goals(request):
     goal, created = StudyGoal.objects.get_or_create(user=request.user)
@@ -135,7 +132,7 @@ def study_goals(request):
         goal.save()
     return render(request, 'planner/goals.html', {'goal': goal})
 
-# Progress Tracker
+
 @login_required
 def progress_tracker(request):
     tasks = StudyTask.objects.filter(user=request.user)
@@ -145,7 +142,7 @@ def progress_tracker(request):
     if total > 0:
         percent_complete = (completed / total) * 100
     else:
-        percent_complete = 0  # Avoid division by zero
+        percent_complete = 0
     
     return render(request, 'planner/progress.html', {
         'total': total,
@@ -154,7 +151,7 @@ def progress_tracker(request):
     })
 
 
-# Calendar
+
 @login_required
 def calendar_view(request):
     tasks = StudyTask.objects.filter(user=request.user)
@@ -168,8 +165,8 @@ def calendar_view(request):
             'description': task.description,
         })
     
-    # Print to verify the data
-    print(events)  # Check in the terminal or console
+ 
+    print(events) 
     
     events_json = json.dumps(events)
     
@@ -179,7 +176,7 @@ def calendar_view(request):
 
 def welcome(request):
     if request.user.is_authenticated:
-        return redirect('home')  # if already logged in, go to home
+        return redirect('home')  
     return render(request, 'planner/welcome.html')
 
 

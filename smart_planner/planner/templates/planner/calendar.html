@@ -28,11 +28,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Parse the events JSON string to a JavaScript object
+        
         const events = JSON.parse('{{ events_json|escapejs }}');
         
-        // Check the events in the browser's console
-        console.log(events);  // This will show if the events are correctly passed
+       
+        console.log(events);  
 
         const calendarEl = document.getElementById('calendar');
         const calendar = new FullCalendar.Calendar(calendarEl, {

@@ -2,7 +2,7 @@
 
 {% block content %}
 <style>
-    /* Container for the entire welcome section */
+    
     .welcome {
         padding: 30px 20px;
         text-align: center;
@@ -13,7 +13,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Title and description */
+   
     .welcome h1 {
         font-size: 2.5em;
         font-weight: 600;
@@ -26,7 +26,7 @@
         margin-bottom: 15px;
     }
 
-    /* Quick Stats Section */
+    
     .quick-stats {
         display: flex;
         justify-content: space-around;
@@ -54,7 +54,7 @@
         color: #555;
     }
 
-    /* Motivation section */
+    
     .motivation {
         background-color: #f9f9f9;
         padding: 20px;
@@ -76,7 +76,7 @@
         font-style: italic;
     }
 
-    /* Call-to-action buttons */
+  
     .cta-buttons {
         display: flex;
         justify-content: center;
@@ -100,13 +100,13 @@
 
 </style>
 
-<!-- Welcome Section -->
+
 <div class="welcome">
     <h1>Welcome to Smart Study Planner</h1>
     <p>Track tasks, set goals, and study smarter with the ultimate study companion!</p>
 </div>
 
-<!-- Quick Stats Section -->
+
 <div class="quick-stats">
     <div class="stat-box">
         <h3>{{ tasks_count }}</h3>
@@ -122,13 +122,13 @@
     </div>
 </div>
 
-<!-- Motivation Section -->
+
 <div class="motivation">
     <h2>Stay Motivated</h2>
     <p>"The future depends on what you do today." - Mahatma Gandhi</p>
 </div>
 
-<!-- Call-to-action Buttons -->
+
 <div class="cta-buttons">
     <a href="{% url 'tasks' %}">View Your Tasks</a>
     <a href="{% url 'calendar' %}">Check Your Study Calendar</a>

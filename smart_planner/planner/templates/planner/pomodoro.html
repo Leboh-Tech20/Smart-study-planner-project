@@ -2,7 +2,7 @@
 
 {% block content %}
 <style>
-    /* Container for the Pomodoro timer */
+   
     .pomodoro-container {
         display: flex;
         justify-content: center;
@@ -13,7 +13,7 @@
         padding: 20px;
     }
 
-    /* Pomodoro timer text style */
+   
     .pomodoro-timer {
         font-size: 4em;
         font-weight: bold;
@@ -22,7 +22,7 @@
         text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    /* Input and button container */
+  
     .pomodoro-time,
     .pomodoro-buttons {
         display: flex;
@@ -32,7 +32,7 @@
         align-items: center;
     }
 
-    /* Button styles */
+   
     .pomodoro-buttons button,
     .pomodoro-time input {
         padding: 15px 30px;
@@ -47,13 +47,13 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Button hover effect */
+   
     .pomodoro-buttons button:hover,
     .pomodoro-time input:hover {
         background-color: #0056b3;
     }
 
-    /* Timer input field */
+   
     .pomodoro-time input {
         width: 80px;
         text-align: center;
@@ -61,7 +61,7 @@
         border-radius: 8px;
     }
 
-    /* Add a subtle animation to the timer */
+   
     @keyframes pulse {
         0% {
             transform: scale(1);
@@ -105,7 +105,7 @@
     }
 
     function startPomodoro() {
-        // Get the custom time from the input field
+        
         minutes = parseInt(document.getElementById('pomodoro-time').value) || 25;
         seconds = 0;
 
